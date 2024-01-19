@@ -1,9 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 
-currency_names = []
-currency_prices = []
-currency_descriptions = []
+currency_names, currency_prices, currency_descriptions = [], [], []
 
 
 def get_currencies():
@@ -32,7 +30,10 @@ def currency_search(currency):
 
 
 def make_conversion(currency_one_index, amount_of_currency_one, currency_two_index):
-    # write code to avoid dividing by zero
+    if float(currency_prices[currency_one_index]) == 0:
+        print(f'The price of {currency_names[currency_one_index]} is near '
+              f'zero and can unfortunately not be calculated.\n')
+        return -1
 
     # USD is a special case since everything is already in terms of USD
     if currency_names[currency_one_index] == "USD":
@@ -74,11 +75,7 @@ print("Welcome to the Currency Conversion App\n")
 running = True
 while running:
     print("Type '-h' for help & '-q' to exit")
-    keyboard = ""
-    index_one = 0
-    index_two = 0
-    amount = 0.0
-    converted = 0.0
+    keyboard, index_one, index_two, amount, converted = "", 0, 0, 0.0, 0.0
 
     valid = False
     while not valid:
@@ -135,5 +132,7 @@ while running:
         break
 
     converted = make_conversion(index_one, amount, index_two)
+    if converted == -1:
+        continue
     print(f'${amount:,.2f} {currency_names[index_one]} is equivalent to ${converted:,.2f} '
           f'{currency_names[index_two]}\n')
