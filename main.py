@@ -5,19 +5,26 @@ currency_names, currency_prices, currency_descriptions = [], [], []
 
 
 def get_currencies():
-    url = requests.get('https://markets.businessinsider.com/currencies').text
-    html_text = BeautifulSoup(url, 'lxml')
-    currencies = html_text.find_all('tr', class_='row-hover')
-    for currency in currencies:
-        currency_names.append(currency.find('td', class_='table__td bold').a.text[4:])
-        currency_prices.append(currency.find_all('td', class_="table__td text-right")[4].text.strip().replace(',', ''))
-        currency_descriptions.append(currency.find_all('td', class_="table__td text-right")[1].text.strip())
+    try:
+        url = requests.get('https://markets.businessinsider.com/currencies').text
+        html_text = BeautifulSoup(url, 'lxml')
+        currencies = html_text.find_all('tr', class_='row-hover')
+        for currency in currencies:
+            currency_names.append(currency.find('td', class_='table__td bold').a.text[4:])
+            currency_prices.append(
+                currency.find_all('td', class_="table__td text-right")[4].text.strip().replace(',', ''))
+            currency_descriptions.append(currency.find_all('td', class_="table__td text-right")[1].text.strip())
 
-    # USD was not on the website list since everything is in terms of USD
-    # It is now being added manually in alphabetical order at a null price
-    currency_names.insert(currency_names.index('UNI')+1, "USD")
-    currency_prices.insert(currency_names.index('UNI')+1, "*")
-    currency_descriptions.insert(currency_names.index('UNI')+1, "United States of America")
+        # USD was not on the website list since everything is in terms of USD
+        # It is now being added manually in alphabetical order at a null price
+        currency_names.insert(currency_names.index('UNI') + 1, "USD")
+        currency_prices.insert(currency_names.index('UNI') + 1, "*")
+        currency_descriptions.insert(currency_names.index('UNI') + 1, "United States of America")
+        print("Welcome to the Currency Conversion App\n")
+        return True
+    except requests.ConnectionError:
+        print("ERROR: No Connection - Please ensure you are connected to the internet")
+        return False
 
 
 def currency_search(currency):
@@ -93,9 +100,9 @@ def input_currency(conversion_type):
             return index
 
 
-get_currencies()
-print("Welcome to the Currency Conversion App\n")
-while True:
+running = True
+running = get_currencies()
+while running:
     print("Type '-h' for help & '-q' to exit")
     keyboard, index_one, index_two, amount, converted = "", 0, 0, 0.0, 0.0
 
