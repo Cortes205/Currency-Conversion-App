@@ -78,37 +78,37 @@ def is_nan(text):
     return False
 
 
+def input_currency(conversion_type):
+    while True:
+        user_input = input(f'Input the currency you want to convert {conversion_type}: ')
+        if user_input == "-h" or user_input == "-q" or user_input == "-c" or user_input == "-r":
+            if not commands(user_input):
+                return -1
+            continue
+
+        index = currency_search(user_input)
+        if index == -1:
+            print("ERROR: Invalid Currency - If you need a list of currencies, type '-c'\n")
+        else:
+            return index
+
+
 get_currencies()
 print("Welcome to the Currency Conversion App\n")
-running = True
-while running:
+while True:
     print("Type '-h' for help & '-q' to exit")
     keyboard, index_one, index_two, amount, converted = "", 0, 0, 0.0, 0.0
 
-    valid = False
-    while not valid:
-        keyboard = input("Input the currency you want to convert from: ")
-        if keyboard == "-h" or keyboard == "-q" or keyboard == "-c" or keyboard == "-r":
-            running = commands(keyboard)
-            if not running:
-                break
-            continue
-
-        index_one = currency_search(keyboard)
-        if index_one == -1:
-            print("ERROR: Invalid Currency - If you need a list of currencies, type '-c'\n")
-        else:
-            valid = True
-
-    if not running:
+    index_one = input_currency("from")
+    if index_one == -1:
         break
 
     valid = False
     while not valid:
         keyboard = input("Input the amount of money you want to convert: ")
         if keyboard == "-h" or keyboard == "-q" or keyboard == "-c" or keyboard == "-r":
-            running = commands(keyboard)
-            if not running:
+            if not commands(keyboard):
+                amount = -1
                 break
             continue
 
@@ -118,25 +118,11 @@ while running:
             amount = float(keyboard)
             valid = True
 
-    if not running:
+    if amount == -1:
         break
 
-    valid = False
-    while not valid:
-        keyboard = input("Input the currency you want to convert to: ")
-        if keyboard == "-h" or keyboard == "-q" or keyboard == "-c" or keyboard == "-r":
-            running = commands(keyboard)
-            if not running:
-                break
-            continue
-
-        index_two = currency_search(keyboard)
-        if index_one == -1:
-            print("ERROR: Invalid Currency - If you need a list of currencies, type '-c'\n")
-        else:
-            valid = True
-
-    if not running:
+    index_two = input_currency("to")
+    if index_two == -1:
         break
 
     converted = make_conversion(index_one, amount, index_two)
