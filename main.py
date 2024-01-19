@@ -70,6 +70,14 @@ def commands(text_input):
     return True
 
 
+def is_nan(text):
+    for character in text:
+        char = ord(character)
+        if (char < 48 or char > 57) and char != 46:
+            return True
+    return False
+
+
 get_currencies()
 print("Welcome to the Currency Conversion App\n")
 running = True
@@ -88,7 +96,7 @@ while running:
 
         index_one = currency_search(keyboard)
         if index_one == -1:
-            print("ERROR: Invalid Currency - If you need a list of currencies, type '-c'")
+            print("ERROR: Invalid Currency - If you need a list of currencies, type '-c'\n")
         else:
             valid = True
 
@@ -104,8 +112,8 @@ while running:
                 break
             continue
 
-        if index_one == -1:
-            print("ERROR: Invalid Number - Please Try Again")
+        if is_nan(keyboard):
+            print("ERROR: Invalid Number - Please Try Again\n")
         else:
             amount = float(keyboard)
             valid = True
@@ -124,7 +132,7 @@ while running:
 
         index_two = currency_search(keyboard)
         if index_one == -1:
-            print("ERROR: Invalid Currency - If you need a list of currencies, type '-c'")
+            print("ERROR: Invalid Currency - If you need a list of currencies, type '-c'\n")
         else:
             valid = True
 
