@@ -128,5 +128,6 @@ while True:
     converted = make_conversion(index_one, amount, index_two)
     if converted == -1:
         continue
+
     print(f'${amount:,.2f} {currency_names[index_one]} is equivalent to ${converted:,.2f} '
           f'{currency_names[index_two]}\n')
