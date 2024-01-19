@@ -11,7 +11,7 @@ def get_currencies():
     for currency in currencies:
         currency_names.append(currency.find('td', class_='table__td bold').a.text[4:])
         currency_prices.append(currency.find_all('td', class_="table__td text-right")[4].text.strip().replace(',', ''))
-        currency_descriptions.append(currency.find_all('td', class_="table__td text-right")[0].text.strip())
+        currency_descriptions.append(currency.find_all('td', class_="table__td text-right")[1].text.strip())
 
     # USD was not on the website list since everything is in terms of USD
     # It is now being added manually in alphabetical order at a null price
