@@ -37,11 +37,6 @@ def currency_search(currency):
 
 
 def make_conversion(currency_one_index, amount_of_currency_one, currency_two_index):
-    if float(currency_prices[currency_one_index]) == 0:
-        print(f'The price of {currency_names[currency_one_index]} is near '
-              f'zero and can unfortunately not be calculated.\n')
-        return -1
-
     # USD is a special case since everything is already in terms of USD
     if currency_names[currency_one_index] == "USD":
 
@@ -50,6 +45,10 @@ def make_conversion(currency_one_index, amount_of_currency_one, currency_two_ind
             return amount_of_currency_one
 
         return amount_of_currency_one * float(currency_prices[currency_two_index])
+    elif float(currency_prices[currency_one_index]) == 0:
+        print(f'The price of {currency_names[currency_one_index]} is near '
+              f'zero and can unfortunately not be calculated.\n')
+        return -1
     elif currency_names[currency_two_index] == "USD":
         return amount_of_currency_one / float(currency_prices[currency_one_index])
 
