@@ -1,6 +1,8 @@
 # Currency Conversion App
 Interactive command line interface application used to convert currencies with live exchange rates
 
+All currency information is extracted from [here](https://markets.businessinsider.com/currencies) in the section labeled "All Currencies"
+
 ## Setup
 
 ### Project Folder
