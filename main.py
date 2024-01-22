@@ -71,8 +71,8 @@ def commands(text_input):
                 print(f'{currency_names[index]} -> {currency_descriptions[index]}')
         print("")
     elif text_input == "-r":
-        get_currencies()
-        print("Currency exchange rates have been successfully refreshed!\n")
+        if get_currencies():
+            print("Currency exchange rates have been successfully refreshed!\n")
     return True
 
 
