@@ -1,9 +1,7 @@
 from bs4 import BeautifulSoup
-from datetime import datetime
 import requests
 
 currency_names, currency_prices, currency_descriptions = [], [], []
-# last_refresh
 
 
 def get_currencies():
