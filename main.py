@@ -1,7 +1,9 @@
 from bs4 import BeautifulSoup
+from datetime import datetime
 import requests
 
 currency_names, currency_prices, currency_descriptions = [], [], []
+# last_refresh
 
 
 def get_currencies():
@@ -20,7 +22,6 @@ def get_currencies():
         currency_names.insert(currency_names.index('UNI') + 1, "USD")
         currency_prices.insert(currency_names.index('UNI') + 1, "*")
         currency_descriptions.insert(currency_names.index('UNI') + 1, "United States of America")
-        print("Welcome to the Currency Conversion App\n")
         return True
     except requests.ConnectionError:
         print("ERROR: No Connection - Please ensure you are connected to the internet")
@@ -99,8 +100,9 @@ def input_currency(conversion_type):
             return index
 
 
-running = True
 running = get_currencies()
+if running:
+    print("Welcome to the Currency Conversion App\n")
 while running:
     print("Type '-h' for help & '-q' to exit")
     keyboard, index_one, index_two, amount, converted = "", 0, 0, 0.0, 0.0
