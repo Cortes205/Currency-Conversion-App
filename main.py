@@ -28,9 +28,40 @@ def get_currencies():
 
 def currency_search(currency):
     index_found = -1
-    for index in range(0, len(currency_names)):
-        if currency == currency_names[index]:
-            index_found = index
+
+    left, right, middle = 0, (len(currency_names)-1), 0
+
+    while left <= right:
+        middle = int((left + right) / 2)
+
+        # Compare ASCII; character by character and conduct necessary adjustment to search area
+        # Even though currencies are only of length 3 or 4 I've generalized cases for any length
+        for index in range(0, len(currency)):
+            # Special Case: If we've reached beyond the length of our middle currency
+            # (in other words, what we are searching for is longer than the middle currency)
+            if index == len(currency_names[middle]):
+                left = middle + 1
+                break
+
+            if ord(currency[index]) == ord(currency_names[middle][index]):
+                # If everything is equal but the middle currency is actually larger than what we're searching for
+                if index == len(currency)-1 and len(currency) < len(currency_names[middle]):
+                    right = middle - 1
+                # If everything is equal, both currency codes are the same length, and we are at the last character
+                # comparison
+                elif len(currency) == len(currency_names[middle]) and index == len(currency)-1:
+                    index_found = middle
+                # No need for breaks above since we'd be at the end of the for loop
+                # If no cases are triggered than loop continues
+            elif ord(currency[index]) > ord(currency_names[middle][index]):
+                left = middle + 1
+                break
+            elif ord(currency[index]) < ord(currency_names[middle][index]):
+                right = middle - 1
+                break
+
+        # index_found equalling -1 implies that the currency wasn't found
+        if index_found != -1:
             break
     return index_found
 
@@ -99,41 +130,43 @@ def input_currency(conversion_type):
 
 
 running = get_currencies()
-if running:
-    print("Welcome to the Currency Conversion App\n")
-while running:
-    print("Type '-h' for help & '-q' to exit")
-    keyboard, index_one, index_two, amount, converted = "", 0, 0, 0.0, 0.0
+if __name__ == "__main__":
+    if running:
+        print("Welcome to the Currency Conversion App\n")
+    while running:
+        print("Type '-h' for help & '-q' to exit")
+        keyboard, amount, converted = "", 0, 0.0
 
-    index_one = input_currency("from")
-    if index_one == -1:
-        break
+        index_one = input_currency("from")
+        if index_one == -1:
+            break
 
-    valid = False
-    while not valid:
-        keyboard = input("Input the amount of money you want to convert: ")
-        if keyboard == "-h" or keyboard == "-q" or keyboard == "-c" or keyboard == "-r":
-            if not commands(keyboard):
-                amount = -1
-                break
+        valid = False
+        while not valid:
+            keyboard = input("Input the amount of money you want to convert: ")
+            if keyboard == "-h" or keyboard == "-q" or keyboard == "-c" or keyboard == "-r":
+                # commands() returning false means quit
+                if not commands(keyboard):
+                    amount = -1
+                    break
+                continue
+
+            if is_nan(keyboard):
+                print("ERROR: Invalid Number - Please Try Again\n")
+            else:
+                amount = float(keyboard)
+                valid = True
+
+        if amount == -1:
+            break
+
+        index_two = input_currency("to")
+        if index_two == -1:
+            break
+
+        converted = make_conversion(index_one, amount, index_two)
+        if converted == -1:
             continue
 
-        if is_nan(keyboard):
-            print("ERROR: Invalid Number - Please Try Again\n")
-        else:
-            amount = float(keyboard)
-            valid = True
-
-    if amount == -1:
-        break
-
-    index_two = input_currency("to")
-    if index_two == -1:
-        break
-
-    converted = make_conversion(index_one, amount, index_two)
-    if converted == -1:
-        continue
-
-    print(f'${amount:,.2f} {currency_names[index_one]} is equivalent to ${converted:,.2f} '
-          f'{currency_names[index_two]}\n')
+        print(f'${amount:,.2f} {currency_names[index_one]} is equivalent to ${converted:,.2f} '
+              f'{currency_names[index_two]}\n')
