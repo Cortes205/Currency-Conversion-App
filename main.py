@@ -52,7 +52,7 @@ def currency_search(currency):
                 elif len(currency) == len(currency_names[middle]) and index == len(currency)-1:
                     index_found = middle
                 # No need for breaks above since we'd be at the end of the for loop
-                # If no cases are triggered than loop continues
+                # If no cases are triggered then loop continues
             elif ord(currency[index]) > ord(currency_names[middle][index]):
                 left = middle + 1
                 break
