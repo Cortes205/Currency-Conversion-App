@@ -58,8 +58,28 @@ The four special commands for this program are:
 Other than that, this program takes currency codes and dollar amounts as input
 and provides a dollar amount in a different currency as output.
 
+### Testing
+To test the searching method that I have used, it can be run from the main directory using:
+
+```sh
+python tests/test_search.py
+```
+
+(or)
+
+```sh
+python3 tests/test_search.py
+```
+
+As of April 19th, 2024, I have implemented a binary search to find inputted currencies.
+I did this as a way of studying for my programming exam and to extend my knowledge.
+This algorithm required consideration of many cases and worked with letters as opposed to
+integers (the way it was taught in my first year). Nonetheless, this was good practice to better understand binary 
+searches for my exam and for the future. 
+
+
 ## About This Project
-This project has taught me more about python since it is not a language I use everyday.
+This project has taught me more about python since it is not a language I use every day.
 I as well have learned the basics of webscraping, especially on a complicated website. However,
 I am happy with the results as this was my first attempt at such a project.
 I hope to one day turn this into a GUI program!
