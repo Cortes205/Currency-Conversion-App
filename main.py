@@ -122,7 +122,7 @@ def input_currency(conversion_type):
                 return -1
             continue
 
-        index = currency_search(user_input)
+        index = currency_search(user_input.upper())
         if index == -1:
             print("ERROR: Invalid Currency - If you need a list of currencies, type '-c'\n")
         else:
